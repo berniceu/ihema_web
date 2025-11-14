@@ -122,6 +122,10 @@
   gap: 1rem;
 }
 
+.footer-bottom p {
+  color: #C2BFBF;
+}
+
 .footer-social-links {
   width: 25%;
   display: flex;
