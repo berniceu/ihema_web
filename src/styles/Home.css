@@ -376,49 +376,220 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease;
   z-index: 10;
   outline: none;
   transition:
-    top 0.45s ease,
-    left 0.45s ease,
-    right 0.45s ease,
-    bottom 0.45s ease,
-    transform 0.3s ease,
     background-color 0.3s ease,
     color 0.3s ease;
+  /* Use animation for circular motion */
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
 }
 
-.circle-number:hover {
+.circle-number:hover:not(.active) {
   background-color: rgba(255, 255, 255, 0.1);
-  transform: scale(1.1);
 }
 
 .circle-number.active {
   background-color: white;
   color: #1e4a72;
-  top: 60px !important;
-  left: 50% !important;
-  bottom: auto !important;
-  right: auto !important;
-  transform: translateX(-50%) scale(1.2) !important;
+  z-index: 15;
 }
 
-/* Positions */
+/* Base Positions */
 .circle-number.top {
   top: 60px;
   left: 50%;
   transform: translateX(-50%);
+  animation-name: none;
+}
+
+.circle-number.top.active {
+  transform: translateX(-50%) scale(1.2);
 }
 
 .circle-number.left {
   left: 5%;
   bottom: 20px;
+  top: auto;
+  right: auto;
+  transform: none;
+  animation-name: none;
 }
 
 .circle-number.right {
   right: 5%;
   bottom: 20px;
+  top: auto;
+  left: auto;
+  transform: none;
+  animation-name: none;
+}
+
+/* Circular motion animations - following the semicircle arc */
+/* Moving from top to left (down left arc) */
+@keyframes moveTopToLeft {
+  0% {
+    top: 60px;
+    left: 50%;
+    bottom: auto;
+    right: auto;
+    transform: translateX(-50%);
+  }
+  33% {
+    top: 150px;
+    left: 30%;
+    bottom: auto;
+    right: auto;
+    transform: translateX(-50%);
+  }
+  66% {
+    top: 280px;
+    left: 12%;
+    bottom: auto;
+    right: auto;
+    transform: translateX(-50%);
+  }
+  100% {
+    top: auto;
+    left: 5%;
+    bottom: 20px;
+    right: auto;
+    transform: none;
+  }
+}
+
+/* Moving from left to top (up left arc) */
+@keyframes moveLeftToTop {
+  0% {
+    top: auto;
+    left: 5%;
+    bottom: 20px;
+    right: auto;
+    transform: none;
+  }
+  33% {
+    top: 280px;
+    left: 12%;
+    bottom: auto;
+    right: auto;
+    transform: translateX(-50%);
+  }
+  66% {
+    top: 150px;
+    left: 30%;
+    bottom: auto;
+    right: auto;
+    transform: translateX(-50%);
+  }
+  100% {
+    top: 60px;
+    left: 50%;
+    bottom: auto;
+    right: auto;
+    transform: translateX(-50%);
+  }
+}
+
+/* Moving from top to right (down right arc) */
+@keyframes moveTopToRight {
+  0% {
+    top: 60px;
+    left: 50%;
+    bottom: auto;
+    right: auto;
+    transform: translateX(-50%);
+  }
+  33% {
+    top: 150px;
+    left: 70%;
+    bottom: auto;
+    right: auto;
+    transform: translateX(-50%);
+  }
+  66% {
+    top: 280px;
+    left: 88%;
+    bottom: auto;
+    right: auto;
+    transform: translateX(-50%);
+  }
+  100% {
+    top: auto;
+    left: auto;
+    bottom: 20px;
+    right: 5%;
+    transform: none;
+  }
+}
+
+/* Moving from right to top (up right arc) */
+@keyframes moveRightToTop {
+  0% {
+    top: auto;
+    left: auto;
+    bottom: 20px;
+    right: 5%;
+    transform: none;
+  }
+  33% {
+    top: 280px;
+    left: 88%;
+    bottom: auto;
+    right: auto;
+    transform: translateX(-50%);
+  }
+  66% {
+    top: 150px;
+    left: 70%;
+    bottom: auto;
+    right: auto;
+    transform: translateX(-50%);
+  }
+  100% {
+    top: 60px;
+    left: 50%;
+    bottom: auto;
+    right: auto;
+    transform: translateX(-50%);
+  }
+}
+
+/* Moving from left to right (along bottom arc) */
+@keyframes moveLeftToRight {
+  0% {
+    top: auto;
+    left: 5%;
+    bottom: 20px;
+    right: auto;
+    transform: none;
+  }
+  100% {
+    top: auto;
+    left: auto;
+    bottom: 20px;
+    right: 5%;
+    transform: none;
+  }
+}
+
+/* Moving from right to left (along bottom arc) */
+@keyframes moveRightToLeft {
+  0% {
+    top: auto;
+    left: auto;
+    bottom: 20px;
+    right: 5%;
+    transform: none;
+  }
+  100% {
+    top: auto;
+    left: 5%;
+    bottom: 20px;
+    right: auto;
+    transform: none;
+  }
 }
 
 /* Content */
@@ -485,8 +656,13 @@
     max-width: 300px;
     padding: 0 1rem;
   }
-  .circle-number.active {
-    top: 40px !important;
+  
+  .circle-number.top {
+    top: 40px;
+  }
+  
+  .circle-number.top.active {
+    transform: translateX(-50%) scale(1.2);
   }
 }
 

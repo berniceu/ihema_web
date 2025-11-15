@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "../styles/Home.css";
 import FAQSection from "./FAQs";
@@ -30,6 +30,21 @@ import { div } from "framer-motion/client";
 // --- Your Original Home Component ---
 const Home = () => {
   const [activeStep, setActiveStep] = useState(1);
+  const [stepPositions, setStepPositions] = useState({
+    1: "top",
+    2: "left",
+    3: "right",
+  });
+  const [animations, setAnimations] = useState({
+    1: null,
+    2: null,
+    3: null,
+  });
+  const prevPositionsRef = useRef({
+    1: "top",
+    2: "left",
+    3: "right",
+  });
 
   const steps = [
     {
@@ -51,6 +66,54 @@ const Home = () => {
         "Prioritizing transparency, inclusivity, and long-term impact in every phase of our work.",
     },
   ];
+
+  // Function to get animation name based on position change
+  const getAnimationName = (fromPos, toPos) => {
+    if (fromPos === toPos) return null;
+    if (fromPos === "top" && toPos === "left") return "moveTopToLeft";
+    if (fromPos === "left" && toPos === "top") return "moveLeftToTop";
+    if (fromPos === "top" && toPos === "right") return "moveTopToRight";
+    if (fromPos === "right" && toPos === "top") return "moveRightToTop";
+    if (fromPos === "left" && toPos === "right") return "moveLeftToRight";
+    if (fromPos === "right" && toPos === "left") return "moveRightToLeft";
+    return null;
+  };
+
+  // Update positions and animations when activeStep changes
+  useEffect(() => {
+    const newPositions = {};
+    const newAnimations = {};
+
+    steps.forEach((step) => {
+      const stepId = step.id;
+      let newPosition;
+      
+      if (stepId === activeStep) {
+        newPosition = "top";
+      } else {
+        const previousStep = ((activeStep - 2 + 3) % 3) + 1;
+        newPosition = stepId === previousStep ? "left" : "right";
+      }
+
+      newPositions[stepId] = newPosition;
+      const oldPosition = prevPositionsRef.current[stepId];
+      const animationName = getAnimationName(oldPosition, newPosition);
+      newAnimations[stepId] = animationName;
+    });
+
+    // Update ref with new positions
+    prevPositionsRef.current = newPositions;
+    setStepPositions(newPositions);
+    setAnimations(newAnimations);
+
+    // Clear animations after they complete
+    const timer = setTimeout(() => {
+      setAnimations({ 1: null, 2: null, 3: null });
+    }, 800);
+
+    return () => clearTimeout(timer);
+  }, [activeStep]);
+
   return (
     <div className="home-page">
       {/* Hero Section */}
@@ -259,21 +322,33 @@ const Home = () => {
             </svg>
 
             {/* Clickable Number Buttons */}
-            {steps.map((step) => (
-              <button
-                key={step.id}
-                className={`circle-number ${
-                  step.id === 1 ? "top" : step.id === 2 ? "left" : "right"
-                } ${activeStep === step.id ? "active" : ""}`}
-                onClick={() => setActiveStep(step.id)}
-                aria-label={`Step ${step.id}`}
-              >
-                {step.id}
-              </button>
-            ))}
+            {steps.map((step) => {
+              const positionClass = stepPositions[step.id];
+              const animationClass = animations[step.id] || "";
+              
+              return (
+                <button
+                  key={step.id}
+                  className={`circle-number ${animationClass ? "" : positionClass} ${
+                    activeStep === step.id ? "active" : ""
+                  } ${animationClass}`}                  
+                  style={
+                    animationClass
+                      ? {
+                          animationName: animationClass,
+                        }
+                      : {}
+                  }
+                  onClick={() => setActiveStep(step.id)}
+                  aria-label={`Step ${step.id}`}
+                >
+                  {step.id}
+                </button>
+              );
+            })}
 
             {/* Dynamic Content */}
-            <div className="circle-content">
+            <div key={activeStep} className="circle-content">
               <h3>{steps.find((s) => s.id === activeStep).title}</h3>
               <p>{steps.find((s) => s.id === activeStep).description}</p>
             </div>
