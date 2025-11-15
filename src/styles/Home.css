@@ -379,6 +379,14 @@
   transition: all 0.3s ease;
   z-index: 10;
   outline: none;
+  transition:
+    top 0.45s ease,
+    left 0.45s ease,
+    right 0.45s ease,
+    bottom 0.45s ease,
+    transform 0.3s ease,
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 .circle-number:hover {
@@ -389,8 +397,11 @@
 .circle-number.active {
   background-color: white;
   color: #1e4a72;
-  font-weight: 600;
-  transform: scale(1.2);
+  top: 60px !important;
+  left: 50% !important;
+  bottom: auto !important;
+  right: auto !important;
+  transform: translateX(-50%) scale(1.2) !important;
 }
 
 /* Positions */
@@ -427,7 +438,7 @@
 }
 
 .circle-content p {
-  font-size: clamp(14px, 1.5vw, 16px);
+  font-size: clamp(14px, 1.5vw, 14px);
   line-height: 1.6;
   opacity: 0.9;
 }
@@ -473,6 +484,9 @@
   .circle-content {
     max-width: 300px;
     padding: 0 1rem;
+  }
+  .circle-number.active {
+    top: 40px !important;
   }
 }
 

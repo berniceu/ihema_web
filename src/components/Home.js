@@ -30,26 +30,27 @@ import { div } from "framer-motion/client";
 // --- Your Original Home Component ---
 const Home = () => {
   const [activeStep, setActiveStep] = useState(1);
+
   const steps = [
-  {
-    id: 1,
-    title: 'Community-Centered Methods',
-    description:
-      'Grounded in local culture and realities to ensure the relevant, accurate, and respectful outcomes for our research’s needs.',
-  },
-  {
-    id: 2,
-    title: 'Data-Driven Insights',
-    description:
-      'Leveraging advanced analytics and AI to uncover meaningful patterns and drive evidence-based decisions.',
-  },
-  {
-    id: 3,
-    title: 'Ethical Innovation',
-    description:
-      'Prioritizing transparency, inclusivity, and long-term impact in every phase of our work.',
-  },
-];
+    {
+      id: 1,
+      title: "Community-Centered Methods",
+      description:
+        "Grounded in local culture and realities to ensure the relevant, accurate, and respectful outcomes for our research’s needs.",
+    },
+    {
+      id: 2,
+      title: "Data-Driven Insights",
+      description:
+        "Leveraging advanced analytics and AI to uncover meaningful patterns and drive evidence-based decisions.",
+    },
+    {
+      id: 3,
+      title: "Ethical Innovation",
+      description:
+        "Prioritizing transparency, inclusivity, and long-term impact in every phase of our work.",
+    },
+  ];
   return (
     <div className="home-page">
       {/* Hero Section */}
@@ -66,8 +67,12 @@ const Home = () => {
           <div className="second-hero-content">
             <div className="text-container">
               <div className="text">
-                <p className="heading-paragraph">Localised Research Expertise</p>
-                <p className="hero-paragraph">Deep cultural understanding and field experience for accurate insights.
+                <p className="heading-paragraph">
+                  Localised Research Expertise
+                </p>
+                <p className="hero-paragraph">
+                  Deep cultural understanding and field experience for accurate
+                  insights.
                 </p>
               </div>
               <div className="text">
@@ -223,44 +228,58 @@ const Home = () => {
 
       {/* Our Approach Section */}
       <section className="our-approach-section">
-      <div className="approach-container">
-        <div className="approach-header">
-          <p>Our Approach</p>
-        </div>
+        <div className="approach-container">
+          <div className="approach-header">
+            <p>Our Approach</p>
+          </div>
 
-        <div className="approach-circle">
-          {/* SVG Arc Background */}
-          <svg className="arc-svg" viewBox="0 0 1000 500" preserveAspectRatio="none">
-            <path
-              d="M 120,480 A 380,380 0 0,1 880,480"
-              fill="none"
-              stroke="#fff"
-              strokeWidth="1"
-            />
-          </svg>
-
-          {/* Clickable Number Buttons */}
-          {steps.map((step) => (
-            <button
-              key={step.id}
-              className={`circle-number ${step.id === 1 ? 'top' : step.id === 2 ? 'left' : 'right'} ${
-                activeStep === step.id ? 'active' : ''
-              }`}
-              onClick={() => setActiveStep(step.id)}
-              aria-label={`Step ${step.id}`}
+          <div className="approach-circle">
+            {/* SVG Arc Background */}
+            <svg
+              className="arc-svg"
+              viewBox="0 0 1000 500"
+              preserveAspectRatio="none"
             >
-              {step.id}
-            </button>
-          ))}
+              <line
+                x1="500"
+                y1="100"
+                x2="500"
+                y2="200"
+                stroke="#fff"
+                strokeWidth="1"
+                strokeDasharray="none"
+              />
+              <circle cx="500" cy="100" r="3" fill="#fff" />
+              <path
+                d="M 120,480 A 380,380 0 0,1 880,480"
+                fill="none"
+                stroke="#fff"
+                strokeWidth="1"
+              />
+            </svg>
 
-          {/* Dynamic Content */}
-          <div className="circle-content">
-            <h3>{steps.find((s) => s.id === activeStep).title}</h3>
-            <p>{steps.find((s) => s.id === activeStep).description}</p>
+            {/* Clickable Number Buttons */}
+            {steps.map((step) => (
+              <button
+                key={step.id}
+                className={`circle-number ${
+                  step.id === 1 ? "top" : step.id === 2 ? "left" : "right"
+                } ${activeStep === step.id ? "active" : ""}`}
+                onClick={() => setActiveStep(step.id)}
+                aria-label={`Step ${step.id}`}
+              >
+                {step.id}
+              </button>
+            ))}
+
+            {/* Dynamic Content */}
+            <div className="circle-content">
+              <h3>{steps.find((s) => s.id === activeStep).title}</h3>
+              <p>{steps.find((s) => s.id === activeStep).description}</p>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
       {/* Research Wall Section */}
       <div className="data-points-box">
